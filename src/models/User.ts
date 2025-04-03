@@ -4,7 +4,7 @@ export class User {
   role : string;
   age : number;  
 
-  constructor(id: number, name: string, imageUrl: string, isBusiness: boolean, role: string, age: number) {
+  constructor(id: number, name: string, role: string, age: number) {
     this.id = id;
     this.name = name;
     this.role = role;
@@ -40,4 +40,3 @@ export class User {
         this.age = age;
     }
 }  
-export default User;

@@ -1,4 +1,4 @@
-import User from '../models/User.js';
+import {User} from '../models/User.js';
 import UserRepository from '../repositories/User.js';
 
 class UserService {
@@ -26,7 +26,7 @@ class UserService {
      * @param id Identifiant de l'utilisateur
      * @returns Utilisateur ou null si non trouvé
      */
-    public async getUserById(req: Request , res : Response): Promise<User | null> {
+    public async getUserById(id: string): Promise<User | null> {
         if (!id) {
             throw new Error('ID utilisateur requis');
         }
@@ -56,7 +56,7 @@ class UserService {
         }
 
         try {
-            const newUser = new User(0, userData.name, '', false, userData.role, userData.age);
+            const newUser = new User(0, userData.name,userData.role, userData.age);
             return await this.repository.create(newUser);
         } catch (error) {
             console.error('Service - Error creating user:', error);
@@ -78,6 +78,23 @@ class UserService {
         } catch (error) {
             console.error(`Service - Error deleting user with ID ${id}:`, error);
             throw new Error(`Échec lors de la suppression de l'utilisateur avec l'ID ${id}`);
+        }
+    }
+
+    /**
+     * Met à jour un utilisateur
+     * @param user Utilisateur à mettre à jour
+     */
+    public async updateUser(user: User): Promise<void> {
+        if (!user) {
+            throw new Error('Utilisateur requis');
+        }
+
+        try {
+            await this.repository.update(user);
+        } catch (error) {
+            console.error(`Service - Error updating user with ID ${user.getId()}:`, error);
+            throw new Error(`Échec lors de la mise à jour de l'utilisateur avec l'ID ${user.getId()}`);
         }
     }
 }
