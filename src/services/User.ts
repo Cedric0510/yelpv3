@@ -26,7 +26,7 @@ class UserService {
      * @param id Identifiant de l'utilisateur
      * @returns Utilisateur ou null si non trouvé
      */
-    public async getUserById(id: string): Promise<User | null> {
+    public async getUserById(id: number): Promise<User | null> {
         if (!id) {
             throw new Error('ID utilisateur requis');
         }
@@ -68,7 +68,7 @@ class UserService {
      * Supprime un utilisateur
      * @param id Identifiant de l'utilisateur à supprimer
      */
-    public async deleteUser(id: string): Promise<void> {
+    public async deleteUser(id: number): Promise<void> {
         if (!id) {
             throw new Error('ID utilisateur requis');
         }

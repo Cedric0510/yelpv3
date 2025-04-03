@@ -21,7 +21,14 @@ class UserController {
 
     public async getById(req: Request, res: Response): Promise<void> {
         try {
-            const id = req.params.id;
+            const id = parseInt(req.params.id, 10); // Conversion en number
+            
+            // Vérifier si l'ID est valide
+            if (isNaN(id)) {
+                res.status(400).json({ message: 'ID invalide' });
+                return;
+            }
+            
             const user = await this.service.getUserById(id);
 
             if (!user) {
@@ -59,7 +66,13 @@ class UserController {
 
     public async delete(req: Request, res: Response): Promise<void> {
         try {
-            const id = req.params.id;
+            const id = parseInt(req.params.id, 10);
+            
+            if (isNaN(id)) {
+                res.status(400).json({ message: 'ID invalide' });
+                return;
+            }
+            
             await this.service.deleteUser(id);
             res.status(200).json({ message: 'User deleted successfully' });
         } catch (error) {

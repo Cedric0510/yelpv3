@@ -18,7 +18,7 @@ class UserRepository {
         }
     }
 
-    public async getById(id: string): Promise<User | null> {
+    public async getById(id: number): Promise<User | null> {
         try {
             const [rows] = await pool.query("SELECT * FROM users WHERE id = ?", [id]);
             const row = rows[0];
@@ -42,7 +42,7 @@ class UserRepository {
         }
     }
 
-    public async delete(id: string): Promise<void> {
+    public async delete(id: number): Promise<void> {
         try {
             await pool.query("DELETE FROM users WHERE id = ?", [id]);
         } catch (error) {
