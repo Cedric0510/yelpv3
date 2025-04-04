@@ -1,5 +1,5 @@
-import {User} from '../models/User.js';
-import pool from '../configs/database.js';
+import {User} from '../models/User';
+import pool from '../configs/database';
 
 class UserRepository {
     constructor() {}

@@ -1,5 +1,5 @@
-import {User} from '../models/User.js';
-import UserRepository from '../repositories/User.js';
+import {User} from '../models/User';
+import UserRepository from '../repositories/User';
 
 class UserService {
     private repository: UserRepository;
