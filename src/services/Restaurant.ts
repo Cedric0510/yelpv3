@@ -1,13 +1,16 @@
 import { Request, Response } from "express";
 import Restaurant from "../models/Restaurant.js";
 import RestaurantRepository from "../repositories/Restaurant.js";
+import UserVoteRepository from "../repositories/UserVote.js";
 
 class RestaurantService {
 
     private restaurantRepository: RestaurantRepository;
+    private userVoteRepository: UserVoteRepository;
 
     constructor() {
         this.restaurantRepository = new RestaurantRepository();
+        this.userVoteRepository = new UserVoteRepository();
     }
 
     public async getAll(req: Request, res: Response): Promise<Restaurant[]> {
@@ -110,6 +113,34 @@ class RestaurantService {
             return "Restaurant deleted successfully.";
         } catch(e) {
             throw new Error("Failed to delete restaurant." + `${e as Error}.message)`);
+        }
+    }
+
+    public async calculatedAverageVote(req: Request, res: Response) {
+        try {
+            const id = parseInt(req.params.id, 10);
+
+            if (!id) {
+                throw new Error("Invalid ID provided.");
+            }
+
+            const request = await this.userVoteRepository.getAllByRestaurant(id);
+
+            if (!request) {
+                throw new Error("Restaurant not found.");
+            }
+
+            let totalLength = request.length;
+            let sumVotes = 0;
+
+            for(let i = 0; i < request.length; i++) {
+                sumVotes += request[i].getVoteCount();
+            }
+
+            const averageVote = sumVotes / totalLength;
+            return averageVote;
+        } catch(e) {
+            throw new Error("Failed to calculate average vote." + `${e as Error}.message)`);
         }
     }
 }
